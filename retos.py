@@ -67,7 +67,50 @@ def draw_tree(height:int,
     elem.append(trunk)
     
     return "\n".join(elem)
-    
+
+def find_unique_toy(toy: str) -> str:
+  # Code here
+  toy_lower = toy.lower()
+  for i, char in enumerate(toy_lower):
+      if toy_lower.count(char) == 1:
+          return toy[i]
+  return ''
+
+from typing import Literal
+
+def move_reno(board: str, moves: str) -> Literal['fail', 'crash', 'success']:
+    lines = board.strip().split('\n')
+    for r, row in enumerate(lines):
+        for c, cell in enumerate(row):
+            if cell == '@':
+                fiel, colm = r, c
+                
+    recoger = False
+    rows = len(lines)
+    cols = len(lines[0])
+    for move in  moves:
+        new_row, new_coll = fiel, colm
+        if move == "L":
+            new_coll -= 1
+        if move == "R":
+            new_coll += 1
+        if move == "U":
+            new_row -= 1
+        if move == "D":
+            new_row += 1
+        if not (0 <= new_row < rows and 0 <= new_coll < cols):
+            return 'success' if recoger else 'crash'
+
+        if lines[new_row][new_coll] == '#':
+            return 'success' if recoger else 'crash'
+
+        fila, col = new_row, new_coll
+
+        if lines[fila][col] == '*':
+            recoger = True
+
+    return 'success' if recoger else 'fail'
+
 if __name__ == "__main__":
     toys_for_qa = [{'toy': "doll", 'quantity': 3},
                    {'toy': "robot", 'quantity': 5},
@@ -87,3 +130,11 @@ if __name__ == "__main__":
             ]
     print(match_gloves(gloves))
     print(draw_tree(5,"@", 2))
+    print(find_unique_toy("Todos"))
+    board = """
+    .....
+    .*#.*
+    .@...
+    .....
+    """
+    print(move_reno(board, "LURD"))
