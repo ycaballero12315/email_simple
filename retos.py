@@ -111,6 +111,21 @@ def move_reno(board: str, moves: str) -> Literal['fail', 'crash', 'success']:
 
     return 'success' if recoger else 'fail'
 
+def max_depth(s: str) -> int:
+  # Code here
+    actual: int = 0
+    maximo: int = 0
+    for ch in s:
+        if ch == '[':
+            actual += 1
+            maximo = max(maximo, actual)
+        if ch == ']':
+            actual -= 1
+            if actual < 0:
+                return -1
+    
+    return maximo if actual == 0 else -1 
+
 if __name__ == "__main__":
     toys_for_qa = [{'toy': "doll", 'quantity': 3},
                    {'toy': "robot", 'quantity': 5},
@@ -138,3 +153,5 @@ if __name__ == "__main__":
     .....
     """
     print(move_reno(board, "LURD"))
+    print(max_depth(']'))
+    print(max_depth('[[[]]]'))
