@@ -126,6 +126,33 @@ def max_depth(s: str) -> int:
     
     return maximo if actual == 0 else -1 
 
+def find_unsafe_gifts(warehouse: list[str]) -> int:
+    count:int = 0
+    rows: int = len(warehouse)
+    cols:int = len(warehouse[0])
+
+    for r, row in enumerate(warehouse):
+        for c, cell in enumerate(warehouse):
+
+            if cell != '*':
+                continue
+
+            flags = False
+
+            if r>0 and warehouse[r-1][c] == '#':
+                flags = True
+            if r<rows-1 and warehouse[r+1][c] == "#":
+                flags = True
+            if c>0 and warehouse[r][c-1] == '#':
+                flags = True
+            if c<cols-1 and warehouse[r][c+1] == '#':
+                flags = True
+            
+            if not flags:
+                count +=1
+    
+    return count
+
 if __name__ == "__main__":
     toys_for_qa = [{'toy': "doll", 'quantity': 3},
                    {'toy': "robot", 'quantity': 5},
