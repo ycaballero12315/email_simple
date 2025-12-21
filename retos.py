@@ -132,7 +132,7 @@ def find_unsafe_gifts(warehouse: list[str]) -> int:
     cols:int = len(warehouse[0])
 
     for r, row in enumerate(warehouse):
-        for c, cell in enumerate(warehouse):
+        for c, cell in enumerate(row):
 
             if cell != '*':
                 continue
