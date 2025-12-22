@@ -153,6 +153,78 @@ def find_unsafe_gifts(warehouse: list[str]) -> int:
     
     return count
 
+def elf_battle(elf1: str, elf2: str) -> int:
+    # Code here
+    live_elf1 = 3
+    live_elf2 = 3
+
+    for ch, ch2 in zip(elf1, elf2):
+        if ch == 'A':
+            if ch2 != 'B':
+                live_elf2 -=1
+        elif ch == 'F':
+            live_elf2 -=2
+        
+        if ch2 == 'A':
+            if ch != 'B':
+                live_elf1 -=1
+        elif ch2 == 'F':
+            live_elf1 -=2
+
+        if live_elf1 <= 0 or live_elf2<=0:
+            break
+
+    if live_elf1<=0 and live_elf2<=0:
+        return 0
+    
+    if live_elf1>live_elf2:
+        return 1
+    if live_elf1<live_elf2:
+        return 2
+    
+    return 0
+
+def run_factory(factory: list[str]) -> str:
+    # Code here
+    rows:int = len(factory)
+    colms: int = len(factory[0])
+    r, c = 0, 0
+    visited = set()
+
+    while True:
+        if r<0 or r >= rows or c<0 or c>= colms:
+            return 'broken'
+        if (r,c) in visited:
+            return 'loop'
+        
+        visited.add(r,c)
+
+        cell = factory[r][c]
+
+        if cell == ".":
+            return 'completed'
+        
+        if cell == '>':
+            c+=1
+        elif cell == '<':
+            c-=1
+        elif cell == '^':
+            r-=1
+        elif cell == "v":
+            r+=1
+
+def find_gift_path(workshop: dict[any], gift: str | int | bool) -> list[str]:
+    # Code here
+    for k, v in workshop.items():
+        if v == gift:
+            return [k]
+        if isinstance(v, dict):
+            agame = find_gift_path(v, gift)
+            if agame:
+                return [k]+agame
+            
+    return []
+
 if __name__ == "__main__":
     toys_for_qa = [{'toy': "doll", 'quantity': 3},
                    {'toy': "robot", 'quantity': 5},
