@@ -225,6 +225,48 @@ def find_gift_path(workshop: dict[any], gift: str | int | bool) -> list[str]:
             
     return []
 
+def draw_table(data: list[dict[str, str | int]], sortBy: str) -> str:
+    columns = list(data[0].keys())
+
+    sorted_data = sorted(data, key=lambda x: x[sortBy])
+
+    widths = []
+    for i, col in enumerate(columns):
+        header = chr(65 + i) 
+        max_len = max(
+            len(header),
+            max(len(str(row[col])) for row in sorted_data)
+        )
+        widths.append(max_len + 2)
+
+    def horizontal_line():
+        return '+' + '+'.join('-' * w for w in widths) + '+'
+
+    header_row = (
+        '|' +
+        '|'.join(
+            ' ' + chr(65 + i).ljust(widths[i] - 1)
+            for i in range(len(widths))
+        ) +
+        '|'
+    )
+
+    rows = []
+    for row in sorted_data:
+        rows.append(
+            '|' +
+            '|'.join(
+                ' ' + str(row[col]).ljust(widths[i] - 1)
+                for i, col in enumerate(columns)
+            ) +
+            '|'
+        )
+
+    return '\n'.join(
+        [horizontal_line(), header_row, horizontal_line(), *rows, horizontal_line()]
+    )
+
+
 if __name__ == "__main__":
     toys_for_qa = [{'toy': "doll", 'quantity': 3},
                    {'toy': "robot", 'quantity': 5},
@@ -254,3 +296,14 @@ if __name__ == "__main__":
     print(move_reno(board, "LURD"))
     print(max_depth(']'))
     print(max_depth('[[[]]]'))
+
+    print(
+        draw_table(
+        [
+            { "gift": 'Book', "quantity": 5 },
+            { "gift": 'Music CD', "quantity": 1 },
+            { "gift": 'Doll', "quantity": 10 }
+        ],
+        'quantity'
+        )
+    )
