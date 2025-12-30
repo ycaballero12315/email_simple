@@ -267,6 +267,25 @@ def draw_table(data: list[dict[str, str | int]], sortBy: str) -> str:
     )
 
 
+def pack_gifts(gifts: list[int], maxWeight: int) -> int | None:
+    # Code here
+    sleighs: int = 1
+    currentWeight: int = 0
+    if len(gifts) == 0:
+        return 0
+    for gift in gifts:
+        if gift > maxWeight:
+            return None
+        if currentWeight+gift <= maxWeight:
+            currentWeight += gift
+        
+        else:
+            sleighs += 1
+            currentWeight = gift
+            
+    return sleighs
+
+
 if __name__ == "__main__":
     toys_for_qa = [{'toy': "doll", 'quantity': 3},
                    {'toy': "robot", 'quantity': 5},
